@@ -18,8 +18,9 @@ public class myLotto {
         while(i<lotto.length) {
             getNum = (int) (Math.random()*45)+1;
             System.out.println(i +":" + getNum);
-            for (int j=0; j<i; j++) {
+            for (int j=0; j<i; j++) { // 중복값 제거
               if (getNum == lotto[j]) {
+                  i--;
                   continue;
               }
             }
@@ -41,10 +42,12 @@ public class myLotto {
             System.out.printf("이번 주 로또 번호를 입력하세요 %d 's num: ", k);
             arr[k-1] = sc.nextInt();
             System.out.println();
-
         }
-        System.out.println(Arrays.toString(lotto));
-        System.out.println(Arrays.toString(arr));
+
+        //로또 번호 확인
+        System.out.println("내가 산 로또 번호" + Arrays.toString(lotto));
+        System.out.println("이번 달 로또 번호" + Arrays.toString(arr));
+
         //일치하는 로또 번호를 계산하자!
         int count = 0;
         count = getCount(lotto, arr, count);
@@ -52,8 +55,8 @@ public class myLotto {
     }
 
     private static int getCount(int[] lotto, int[] arr, int count) {
-        for (int x=0; x<7; x++) {
-            for (int y=0; y<7; y++) {
+        for (int x=0; x<lotto.length; x++) {
+            for (int y=0; y<arr.length; y++) {
                 if (lotto[x] == arr[y]) {
                     count++;
                 }
