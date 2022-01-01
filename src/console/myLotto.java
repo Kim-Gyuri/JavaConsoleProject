@@ -47,14 +47,19 @@ public class myLotto {
         System.out.println(Arrays.toString(arr));
         //일치하는 로또 번호를 계산하자!
         int count = 0;
-        for (int x=0; x<lotto.length-1; x++) {
-            for (int y=0; y<arr.length-1; y++) {
+        count = getCount(lotto, arr, count);
+        System.out.println(count+"개 당첨되었습니다.");
+    }
+
+    private static int getCount(int[] lotto, int[] arr, int count) {
+        for (int x=0; x<7; x++) {
+            for (int y=0; y<7; y++) {
                 if (lotto[x] == arr[y]) {
                     count++;
                 }
             }
         }
-        System.out.println(count);
+        return count;
     }
 
 }
