@@ -1,8 +1,11 @@
 package console.LottoV3.DrawLotto;
 
+import console.LottoV2.Ball;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 public class LottoCalculator {
     private List<Ball> balls = new ArrayList<Ball>();
@@ -24,4 +27,5 @@ public class LottoCalculator {
     public int getBall() {
         return balls.get(cnt++).getNumber();
     }
+
 }

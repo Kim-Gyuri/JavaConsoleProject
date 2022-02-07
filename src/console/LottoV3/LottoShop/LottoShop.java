@@ -1,10 +1,13 @@
 package console.LottoV3.LottoShop;
 
+import console.LottoV3.DrawLotto.Ball;
+
 import java.util.*;
 
 public class LottoShop {
 
     List<String> savedLotto = new ArrayList<String>(); //구매한 로또를 저장할 임시저장소
+    private ArrayList<Ball> lotto;
 
     private Scanner sc = new Scanner(System.in);
     public void start() {
