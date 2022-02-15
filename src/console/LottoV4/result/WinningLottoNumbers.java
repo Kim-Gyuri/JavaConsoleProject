@@ -3,6 +3,8 @@ package console.LottoV4.result;
 import console.LottoV4.domain.Board;
 import console.LottoV4.domain.LottoNumber;
 
+import java.util.List;
+
 public class WinningLottoNumbers {
 
     private Board board;
@@ -39,4 +41,11 @@ public class WinningLottoNumbers {
         this.bonusNumber = bonusBoll;
     }
 
+    public void getMatchNumber(Board one) {
+        List<LottoNumber> purchasedTicket = one.getTickets();
+        List<LottoNumber> winTicket = board.getTickets();
+
+        winTicket.retainAll(purchasedTicket);
+        System.out.println(winTicket.toString());
+    }
 }

@@ -43,10 +43,12 @@ public enum WinningsType {
 
     public static List<WinningsType> getLottoMatchType(int countMatchedNumbers) {
 
-        return Arrays.stream(WinningsType.values())
+        List<WinningsType> collect = Arrays.stream(WinningsType.values())
                 .filter(
-                        lottoMatchType -> lottoMatchType.getCountMatchedNumbers() == countMatchedNumbers )
+                        lottoMatchType -> lottoMatchType.getCountMatchedNumbers() == countMatchedNumbers)
                 .collect(Collectors.toList());
+        System.out.println("collect = " + collect.toString());
+        return collect;
     }
 
 

@@ -11,7 +11,12 @@ public class Board {
    public Board(List<LottoNumber> tickets) {
        this.tickets = new ArrayList<>(tickets);
    }
-   public List<LottoNumber> getTickets() {
+
+    public Board() {
+
+    }
+
+    public List<LottoNumber> getTickets() {
        return tickets;
    }
 
@@ -28,5 +33,6 @@ public class Board {
     public void add(LottoNumber lottoNumber) {
         tickets.add(lottoNumber);
     }
+
 
 }

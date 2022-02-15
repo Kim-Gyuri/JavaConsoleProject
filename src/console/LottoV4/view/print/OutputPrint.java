@@ -4,7 +4,6 @@ import console.LottoV4.domain.Board;
 import console.LottoV4.domain.BoardDao;
 import console.LottoV4.domain.LottoNumber;
 import console.LottoV4.domain.ticketgenerator.Generator;
-import console.LottoV4.result.LottoResult;
 import console.LottoV4.result.WinningLottoNumbers;
 import console.LottoV4.view.InputView;
 import console.LottoV4.winnigsType.WinningsType;
@@ -36,12 +35,11 @@ public class OutputPrint {
     }
 
 
-
     public static void printEachNumberMatchedCountMessage(WinningsType lottoMatchType,
                                                           int countOfMatchedNumbers) {
         System.out.printf(lottoMatchType.getPrizeMoney() + NEW_LINE, countOfMatchedNumbers);
     }
-
+/*
     public static void printResult(LottoResult lottoResult) {
         for (WinningsType lottoMatchType : WinningsType.values()) {
             int countOfMatchedNumbersOfSpecificType = lottoResult.getCountOfMatchedNumbersOfSpecificType(lottoMatchType);
@@ -49,4 +47,6 @@ public class OutputPrint {
         }
 
     }
+
+ */
 }
