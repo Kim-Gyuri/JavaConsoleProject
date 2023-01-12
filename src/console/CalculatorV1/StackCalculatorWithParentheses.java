@@ -4,18 +4,15 @@ import java.util.*;
 
 public class StackCalculatorWithParentheses {
     private static final double PI = 3.141592;
+    private static final String[] operands = {
+            "Tan","Cos", "Sin",
+            "√", "log", "ln",
+            "!", "^", "π"};
 
     public static void main(String[] args) {
 
-
-
-        final String[] operands = {
-                "Tan","Cos", "Sin",
-                "√", "log", "ln",
-                "!", "^", "π"};
-
-        boolean run = true;
         Scanner sc = new Scanner(System.in);
+        boolean run = true;
 
         System.out.println("어서오세요. 공학계산 프로그램입니다.");
         System.out.println(
@@ -48,14 +45,14 @@ public class StackCalculatorWithParentheses {
 
             int menuNum = Integer.parseInt(sc.nextLine());
 
-
             switch (menuNum) {
                 case 1:
                     System.out.println("입력은 한칸 씩 띄워서 작성해주세요.");
-                    System.out.println("(예시) : 10 + ( √25 + 3! - 4 + Sin10 ) + ln20 + Cos10 + log10 처럼 입력해주세요.");
+                    System.out.println("(예시1) : 10 + ( √25 + 3! - 4 + Sin10 ) + 2 * ln20 + Cos10 + log10 처럼 입력해주세요.");
+                    System.out.println("(예시2) 제곱연산은 다음과 같이 입력해주세요. 2의 제곱은 2^");
                     System.out.println("계산하고자 하는 문장을 입력해주세요> ");
                     String expression = sc.nextLine();
-                    String[] operandCalculatorV2 = getOperandCalculatorV2(operands, expression);
+                    String[] operandCalculatorV2 = getOperandCalculatorV2(expression);
                     String stackExpressionStr[] = divideExpression(operandCalculatorV2);
                     System.out.println("----------------------계산 과정-----------------------------");
                     System.out.println("\n정답은 = " + calculate(stackExpressionStr));
@@ -65,29 +62,23 @@ public class StackCalculatorWithParentheses {
                     run = false;
                     System.out.println("종료 키가 입력되어 종료합니다.");
                     break;
-
             }
         }
-
     }
 
-    private static String[] getOperandCalculatorV2(String[] operands, String expression) {
-        //String tmp = "";
-        HashMap<String, String> map = new HashMap<>();
+    private static String[] getOperandCalculatorV2(String expression) {
         HashMap<Integer, String> storage = new HashMap<>();
         String[] expressionArray = expression.split(" ");
-        String[] returnStorage = new String[expressionArray.length];
         for (int i = 0; i < expressionArray.length; i++) {
-            //System.out.println("i = " + i + ", value = " + expressionArray[i]);
             storage.put(i, expressionArray[i]);
 
-            IsContainOperand(operands, map, storage, expressionArray, i);
+            IsContainOperand(storage, expressionArray, i);
         }
-
-        return getOperandResult(storage, returnStorage);
+        return getOperandResult(storage);
     }
 
-    private static String[] getOperandResult(HashMap<Integer, String> storage, String[] returnStorage) {
+    private static String[] getOperandResult(HashMap<Integer, String> storage) {
+        String[] returnStorage = new String[storage.size()];
         for (Integer integer : storage.keySet()) {
             String s = storage.get(integer);
             returnStorage[integer] = String.format(s);
@@ -95,28 +86,28 @@ public class StackCalculatorWithParentheses {
         return returnStorage;
     }
 
-    private static void IsContainOperand(String[] operands, HashMap<String, String> map, HashMap<Integer, String> storage, String[] expressionArray, int i) {
-        String tmp;
+    private static void IsContainOperand(HashMap<Integer, String> storage, String[] expressionArray, int index) {
+        String tmp = "";
         Double ans = 0.0d;
         for (String operand : operands) {
-            if (expressionArray[i].contains(operand)) {
-                ans = ExtractNumber(expressionArray, i, ans, operand);
+            if (expressionArray[index].contains(operand)) {
+                ans = ExtractNumber(expressionArray, index, operand);
 
                 tmp = Double.toString(ans);
-                map.put(expressionArray[i], tmp);
-                storage.put(i, tmp);
+                storage.put(index, tmp);
             }
         }
     }
 
-    private static Double ExtractNumber(String[] expressionArray, int i, Double ans, String operand) {
-        if (expressionArray[i].startsWith(operand)) {
-            Double number = Double.parseDouble(expressionArray[i].substring(operand.length()));
+    private static Double ExtractNumber(String[] expressionArray, int index, String operand) {
+        Double ans = 0.0d;
+        if (expressionArray[index].startsWith(operand)) {
+            Double number = Double.parseDouble(expressionArray[index].substring(operand.length()));
             ans = doMath(operand, number);
         }
 
-        else if(expressionArray[i].endsWith(operand)) {
-            Double number = Double.parseDouble(expressionArray[i].substring(0, expressionArray[i].length() - operand.length()));
+        else if(expressionArray[index].endsWith(operand)) {
+            Double number = Double.parseDouble(expressionArray[index].substring(0, expressionArray[index].length() - operand.length()));
             ans = doMath(operand, number);
         }
         return ans;
@@ -163,7 +154,7 @@ public class StackCalculatorWithParentheses {
             } catch (NumberFormatException e) {
                 double number1 = numberStack.pop();
                 double number2 = numberStack.pop();
-                System.out.print("\n" + number2 + s + number1);
+                System.out.print("\n" + number2 + " " + s + " " + number1);
                 switch (s) {
                     case "+" :
                         numberStack.push(number2 + number1);
