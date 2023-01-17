@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
+//로또
 class Lotto{
     private Scanner sc = new Scanner(System.in);
     public void start() {
@@ -22,7 +23,7 @@ class Lotto{
         for (int i=0; i<num.length; i++) {
             num[i] = i+1;
         }
-        int[] LottoNum = new int[7];
+        int[] LottoNum = new int[6];
         for (int i=0; i<LottoNum.length; i++) {
             int seq = random.nextInt(45-i); //45범위 안에서 점점 좁힌다
 
@@ -36,6 +37,7 @@ class Lotto{
         return Arrays.toString(LottoNum);
     }
 }
+
 public class LottoMain {
     public static void main(String[] args) {
         Lotto lotto = new Lotto();

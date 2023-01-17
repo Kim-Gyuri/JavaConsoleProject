@@ -1,9 +1,9 @@
-package console.LottoV2;
+package console.LottoV3.Generator;
 
-// 당첨 볼(번호) 객체
+// 추첨 공 객체
 public class Ball {
     private int number;
-    public Ball() { }
+    public Ball() {}
     public int getNumber() {
         return number;
     }
@@ -11,3 +11,5 @@ public class Ball {
         this.number = number;
     }
 }
+
+
