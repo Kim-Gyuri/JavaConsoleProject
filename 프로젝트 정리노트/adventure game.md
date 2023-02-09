@@ -6,6 +6,22 @@
 [4. 전체코드](#4-전체코드) <br>
 [5. 참고자료](#5-참고자료) <br>
 
+<br><br>
+
+## 실행화면
+### Hero 선택화면
+![ConsoleProject-–-12023-02-08-16-23-56-_online-video-cutter com_](https://user-images.githubusercontent.com/57389368/217464336-c04c7e40-c8be-4fd0-baa4-e1ba2b5685f8.gif)
+
+### Hero 전사를 선택했을 경우
+![전사버전-_online-video-cutter com_-_1_](https://user-images.githubusercontent.com/57389368/217468226-d9fbe419-b9ce-4d35-b68e-2f562b1cf970.gif)
+
+### Hero 마법사를 선택했을 경우
+![마법사-_online-video-cutter com_](https://user-images.githubusercontent.com/57389368/217495729-eb06d10a-36cf-4f17-b3ba-49f338bcb9d7.gif)
+
+### Hero 궁수를 선택했을 경우
+![궁수-_online-video-cutter com_-_1_](https://user-images.githubusercontent.com/57389368/217503733-0b23a322-eaa0-47ce-a6e5-58914cb60850.gif)
+
+
 ## 1. 요구사항
 던전 사냥게임을 만들어 보자. <br> <br>
 `기능 요구 사항` <br>
@@ -91,9 +107,6 @@
 
 <br><br> <br>
 
-
-
-
 ### 객체지향 디자인패턴
 '전사' '마법사' '궁수' 객체에 따른 공격전략을 OCP 법칙에 맞게 설계해보자. <br> 객체의 공격 행동을 스트래티지 패턴으로 구현해보자. <br>
 인터페이스를 활용하여 변화에 유연한 캡슐화 처리를 해주기 때문에, 전략에 따라 쉽게 바꿀 수 있다. <br>
@@ -172,7 +185,102 @@ player 클래스에 공격전략 인터페이스를 연결하고, 해당 인터�
 >    drinkPotion() :회복포션을 마시다.<br>
 >    useTearsOfPhoenix() :불사조 눈물을 사용하다. <br>
 
+<br><br> <br>
 
+### enum 타입을 활용
+![player는 hero 속성과 인벤토리를 가진다](https://user-images.githubusercontent.com/57389368/217800376-c3d24476-2d6d-4ff4-a786-a4a35f0c95f8.png) <br>
+![Hero 코드](https://user-images.githubusercontent.com/57389368/217801154-397eaa34-d7a8-4b41-af25-f1df51573243.png)
+
+> Player에 사용되는 Hero를 enum을 사용하여 만들었다. Player외에는 사용되는 곳이 없기에 inner type으로 선언하려고 했지만,  <br>
+> Player 코드가 너무 길어질 것 같아서 player 패키지로 묶어두어 만들었다. <br>
+
+Hero 속성으로 마법사/ 궁수/전사 에 대한 정보를 정의했다.  <br>
+3가지 종류 Hero의 정보로 들어가는  String name, String weapon, String info로 선언된 부분을 전부 enum에 담았다.  <br>
+이로 인해 부모 클래스인 Player 생성자 코드가 훨씬 간결해졌다.  <br>
+자식 클래스(ARCHER, WARRIOR, WIZARD)는 어떤 Hero 값을 사용할지 넣기만 하면 된다.   <br>
+
+<br><br>
+
+![Enemy](https://user-images.githubusercontent.com/57389368/217801669-c5cccc99-1ac2-4bd8-8c21-768c3f797a3a.png) <br>
+![Enemy의 몬스터 타입](https://user-images.githubusercontent.com/57389368/217801803-b2af9d1c-3fea-4b96-8387-c04f4c071528.png) <br>
+
+ 또한, 던전에 존재하는 몬스터 정보를 enum타입으로 정의했다. <br>
+ 던전에  존재하는 Monster의 정보로 들어가는 String name, int healthPoint, int power, int bounty로 선언된 부분을 전부 enum에 담았다. <br>
+ 이로 인해 Enemy 클래스의 생성자 코드가 훨씬 간결해졌다. <br>
+
+> Enemy의 기본로직으로 damageDealt(), resetHp()를 넣었다. <br>
+> damageDealt() : 플레이어와 전투 중 입은 피해 <br>
+> resetHp() : 전투에서 죽은 후, 다음 진행을 위해 HP를 리셋한다. <br>
+> 처음에는 "Enemy가 damageDealt(), resetHp() 로직을 갖고 있는데 역할에 맞지 않은 설계가 아닐까?" <br>
+> "두 로직을 GameSystem 클래스에 정의해두고 사용해야  맞지 않을까?"라고 생각했었다. <br>
+> 고민끝에 두 로직은 setter() 같은 역할 메서드이니까, Enemy에 정의해두고, system에서만 사용하도록 설계하자고 정리했다. 
+
+<br>
+
+![Item code](https://user-images.githubusercontent.com/57389368/217802531-abd785f9-401b-45e6-95ac-3bf0da52d0cc.png) <br>
+
+ 던전에서 얻을 수 있는 회복 아이템 정보를 enum타입으로 정의했다. <br>
+ 아이템 정보로 들어가는 int healAmount로 선언된 부분을 enum에 담았다. <br>
+ 이제 아이템을 명시적으로 Potion(회복포션), TearsOfPhoenix(불사조눈물) 단위로 사용할 수 있게 되었다. <br>
+
+ <br> <br>
+ 
+ ### 일급컬렉션 사용
+ Collection을 Wrapping하면서, 그 외 다른 멤버 변수가 없는 상태를 일급 컬렉션이라 한다. <br> Wrapping 함으로써 객체지향적으로 설계해보자.
+
+ `Map<>` <br>
+ 
+ ![인벤토리](https://user-images.githubusercontent.com/57389368/217801465-fa2a94b6-9128-4f35-ae88-352f64b65f84.png) <br>
+  "Player는 Inventory를 가진다."라고 정의했다. <br>
+  Inventory는 Item을 담을 수 있도록, Map<Item, Integer>로 정의해 Item 수량 정보를 담았다. <br>
+  Map에서 get+put를 사용하면, 해당 Item을 조회하여 처리한다는 뜻이 되기도해서 적절한 것 같다.  <br>
+  
+> Inventory에서 기본로직 put(),pick(),find()를 만들었고, Player가 Inventory를 사용할 수 있도록 했다. <br>
+> findPotion() : 포션 수량 확인, findTearsOfPhoenix() : 불사조 눈물 수량 확인 <br>
+> pickPotion() : 포션을 꺼내 사용, pickTearsOfPhoenix() : 불사조 눈물을 꺼내 사용 <br>
+> putPotion() : 포션 획득, putTearsOfPhoenix() : 불사조 눈물 획득
+
+ <br>
+ 
+ ![게임시스템](https://user-images.githubusercontent.com/57389368/217803407-b9279668-9927-45e6-9e71-138f68f4589c.png) <br>
+ GameSystem 클래스도 마찬가지로 HashMap<String, Player>로 정의해 게임 속 "전사" "궁수" "마법사" 객체를 담았다.  <br>
+ 게임을 시작했을 때, 게임 이용자가 선택한 Hero.name을 key로 사용하여 Map에서 해당 객체를 꺼낸다. <br>
+ 
+ <br><br>
+ 
+ `Stack<>` <br>
+ 
+ ![패치노트](https://user-images.githubusercontent.com/57389368/217804604-65f50796-fd51-4381-bf53-f06fed55c069.png) <br>
+ 
+ patchNote에서 던전에 존재하는 몬스터 정보 업데이트를 할 수 있다고 가정했었다. <br>
+ patchNote에 Stack<Enemy> 컬렉션을 wrapping해보자. <br>
+ 던전에서 만날 수 있는 몬스터를 랜덤 뽑기 시스템을 통해 이루어지도록 설계했다. <br>
+ 매번 랜덤하게 몬스터를 뽑는 것이 포인트다. <br>
+
+ <br>
+ 
+![enum values()를 사용하여, Enemy Monster 정보를](https://user-images.githubusercontent.com/57389368/217805051-b078c010-3689-441b-acb3-382f95f9ae45.png) <br>
+
+ enum.values()를 사용하여, Enemy.Monster 정보를 모두 꺼내 Enemy 객체를 생성할 때 넣는다. <br>
+ 이때 pathchNote에서 얻은 정보(몬스터가 포션을 가졌는지? 불사조눈물을 가졌는지?)를 같이 넣어준다. <br>
+ Stack<>에 생성한 Enemy를 넣는다. <br>
+ 
+ Stack<Enemy>를 생성하는 시점에서 Stack 리스트를 랜덤정렬하였다. <br>
+ 이렇게 하면 이미 랜덤정렬이 된 리스트 안에서 맨위부터 차례로 뽑기만 해도 된다. <br>
+
++  Collections.shuffle()를 추가하여 랜덤정렬.
++ peek()을 통해 뽑도록 한다.
+ 
+>  Stack의 peek메소드를 사용하면 값을 제거하지 않으면서 값을 확인할 수 있다,  <br> 
+> 그래서 리스트 안에서 계속 데이터를 추첨할 수 있다. <br> 이렇게 코드를 짜면, 의도했던 대로 '던전에서 랜덤픽으로 몬스터를 발견'할 수 있다.
+ 
+<br><br><br>
+ 
+### 역할과 구현을 분리한다.
+```
+  patchNote -> system -> view -> Main
+```
+ 
 ## 3. 생각정리
 
 ## 4. 전체코드
@@ -180,3 +288,7 @@ player 클래스에 공격전략 인터페이스를 연결하고, 해당 인터�
 
 ## 5. 참고자료
 [JAVA 객체지향 디자인패턴 스트래티지 패턴](https://m.blog.naver.com/1ilsang/221119257326) <br>
+[enum타입과 리팩토리 과정](https://jojoldu.tistory.com/73) <br>
+[일급 컬렉션 사용](https://jojoldu.tistory.com/412)
+ 
+
