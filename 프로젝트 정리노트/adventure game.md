@@ -3,9 +3,6 @@
 [0. 실행화면](#0-실행화면) <br>
 [1. 요구사항](#1-요구사항) <br>
 [2. 코드분석](#2-코드분석) <br>
-[3. 생각정리](#3-생각정리) <br>
-[4. 전체코드](#4-전체코드) <br>
-[5. 참고자료](#5-참고자료) <br>
 
 <br><br>
 
@@ -380,26 +377,3 @@ GameSystem에 PatchNote 몬스터 랜덤 기능을 적용한다.<br>
 > userInfo() : 캐릭터 정보 출력  <br> 
 > checkStatusWindow() : 플레이어와 몬스터의 HP MP를 확인한다.  <br> 
 > checkDropRate_bounty() : 몬스터를 물리친 후, 획득한 아이템(물약/불사조눈물) or 현상금을 확인한다.  <br> 
-
-<br>
- 
-#### View 
-GameSystem과 게임 이용자의 입력에 따른 결과를 출력한다. <br>
-![view 캐릭터 선택](https://user-images.githubusercontent.com/57389368/217841796-0591165f-805e-44f3-bc98-78093ab2c270.png) <br>
-+ while(), switch(), if()을 사용하여 게임 선택지를 구현한다.
-
-![view 게임 선택지1](https://user-images.githubusercontent.com/57389368/217852341-f88ed3e5-8d68-4eb5-9894-7af73087ea03.png)
-![view 게임 선택지 2](https://user-images.githubusercontent.com/57389368/217852518-c48e4937-f144-4c30-9784-f4488a7ae543.png)
-
- 
-## 3. 생각정리
-
-## 4. 전체코드
-[코드](https://github.com/Kim-Gyuri/JavaConsoleProject/tree/master/src/console/adventure)
-
-## 5. 참고자료
-[JAVA 객체지향 디자인패턴 스트래티지 패턴](https://m.blog.naver.com/1ilsang/221119257326) <br>
-[enum타입과 리팩토리 과정](https://jojoldu.tistory.com/73) <br>
-[일급 컬렉션 사용](https://jojoldu.tistory.com/412)
- 
-
