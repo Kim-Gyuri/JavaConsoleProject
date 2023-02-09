@@ -365,11 +365,10 @@ Hero 속성으로 마법사/ 궁수/전사 에 대한 정보를 정의했다.  <
  <br>
  
 #### GameSystem
- 게임시스템에 패치노트를 적용한다.<br>
+GameSystem에 PatchNote 몬스터 랜덤 기능을 적용한다.<br>
 ![system은 patchNote를 적용한다](https://user-images.githubusercontent.com/57389368/217840390-3ee7bb5f-6fdc-48f6-aaf3-3f2a63d5720f.png) <br>
- 
-+ 패치노트에서 업데이트한 몬스터 랜덤 기능을 적용한다.
- 
+![패치노트 통해 시스템에서 몬스터 뽑기 시스템 코드](https://user-images.githubusercontent.com/57389368/217850897-42b5fb41-98f2-4215-9e1f-0a0a96c69650.png) <br> 
+
 > `GameSystem 클래스의 메소드` <br> 
 > classesOfHero() : 게임에 있는 영웅 캐릭터를 세팅한다.  <br> 
 > guide() : 게임 가이드  <br> 
@@ -387,8 +386,11 @@ Hero 속성으로 마법사/ 궁수/전사 에 대한 정보를 정의했다.  <
 #### View 
 GameSystem과 게임 이용자의 입력에 따른 결과를 출력한다. <br>
 ![view 캐릭터 선택](https://user-images.githubusercontent.com/57389368/217841796-0591165f-805e-44f3-bc98-78093ab2c270.png) <br>
++ while(), switch(), if()을 사용하여 게임 선택지를 구현한다.
 
- 
+![view 게임 선택지1](https://user-images.githubusercontent.com/57389368/217852341-f88ed3e5-8d68-4eb5-9894-7af73087ea03.png)
+![view 게임 선택지 2](https://user-images.githubusercontent.com/57389368/217852518-c48e4937-f144-4c30-9784-f4488a7ae543.png)
+
  
 ## 3. 생각정리
 
