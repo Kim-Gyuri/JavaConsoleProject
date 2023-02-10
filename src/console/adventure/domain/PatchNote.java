@@ -15,7 +15,6 @@ import java.util.Stack;
   setMonster() :  던전에서 마주칠 몬스터 랜덤 선택
 
   # 플레이어/몬스터 세팅에 필요한 수치값을 업데이트
-  setPlayerHeart() : 플레이어가 살아있는지?
   setPlayerHP() : 플레이어 최대 HP
   setPlayerMP() : 플레이어 최대 MP
   setPlayerBasicAttack() : 플레이어 평타 공격력
@@ -35,10 +34,10 @@ public class PatchNote {
     private static final int TEARS_OF_PHOENIX_DROP_CHANCE = 3;
     private static final int MAX_PERCENT = 100;
     private static final int ONE = 1;
+    private static final int ZERO = 0;
 
     private static final int MAX_PLAYER_HEALTH_POINT = 100;
     private static final int MAX_PLAYER_MAGIC_POINT = 100;
-    private static final boolean ALIVE = true;
 
 
     private Stack<Enemy> enemies;
@@ -61,10 +60,6 @@ public class PatchNote {
             enemies.push(enemy);
         }
         return enemies;
-    }
-
-    public boolean setPlayerHeart() {
-        return ALIVE;
     }
 
     public int setPlayerHP() {
@@ -99,6 +94,8 @@ public class PatchNote {
     getter() >
     getMaxHP() : 플레이어 최대 체력
     getMaxMP() : 플레이어 최대 마나
+    onePoint() : 수치 1
+    zero       : 수치 0
 
     toString() >
     던전에 있는 모든 몬스터 정보를 출력
@@ -109,6 +106,14 @@ public class PatchNote {
 
     public int getMaxMP(){
         return MAX_PLAYER_MAGIC_POINT;
+    }
+
+    public int onePoint() {
+        return ONE;
+    }
+
+    public int zero() {
+        return ZERO;
     }
 
     @Override

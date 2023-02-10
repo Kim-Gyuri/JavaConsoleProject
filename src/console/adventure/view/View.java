@@ -1,9 +1,7 @@
 package console.adventure.view;
 
 import console.adventure.domain.GameSystem;
-import console.adventure.domain.enemy.Enemy;
 import console.adventure.domain.player.Hero;
-import console.adventure.domain.player.Player;
 
 import java.util.Scanner;
 
@@ -27,7 +25,7 @@ public class View {
             system.logo();
             switch (mainMenu(scanner)) {
                 case ONE:
-                    system.getImage(Hero.WARRIOR.getName());
+                    system.getHeroImage(Hero.WARRIOR.getName());
                     System.out.println(Hero.WARRIOR.toString());
                     if (chooseHero(scanner)) {
                         selected += Hero.WARRIOR.getName();
@@ -35,7 +33,7 @@ public class View {
                     }
                     break;
                 case TWO:
-                    system.getImage(Hero.WIZARD.getName());
+                    system.getHeroImage(Hero.WIZARD.getName());
                     System.out.println(Hero.WIZARD.toString());
                     if (chooseHero(scanner)) {
                         selected += Hero.WIZARD.getName();
@@ -43,7 +41,7 @@ public class View {
                     }
                     break;
                 case THREE:
-                    system.getImage(Hero.ARCHER.getName());
+                    system.getHeroImage(Hero.ARCHER.getName());
                     System.out.println(Hero.ARCHER.toString());
                     if (chooseHero(scanner)) {
                         selected += Hero.ARCHER.getName();
@@ -51,11 +49,12 @@ public class View {
                     }
                     break;
                 default:
+                    System.out.println("               Invalid command!, try again.");
                     continue;
             }
         }
         system.chooseHero(selected);
-        System.out.println(system.userInfo().toString());
+        System.out.println(system.showPlayerInfo());
     }
 
     // 게임하기.
@@ -77,64 +76,123 @@ public class View {
         ----------------------------------------------------------------------
          */
         boolean run = true;
-        Player player = system.userInfo();
         system.guide();
         Thread.sleep(3000);
+
         GAME:
         while (run) {
             //던전에 입장
-            Enemy enemy = system.chooseEnemy();
-            encounterMonster(enemy,system);
-            System.out.println(LINE);
-            Thread.sleep(2400);
+            system.chooseEnemy();
+            encounterMonster(system);
 
             //1. 몬스터와 마주침 [선택지]
-            while (enemy.getHealthPoint() > ZERO) {
-                system.getImage(player.getOccupation().getName(), enemy.getName());
-                System.out.println(LINE_TYPE2);
-                system.checkStatusWindow(player, enemy);
+            while (system.checkEnemyHP() && system.checkPlayerIsAlive()) {
+                // 플레이어와 몬스터 HP/MP 정보보기
+                player_enemy_status(system);
 
                 switch (actionMenu(scanner)) {
                     case ONE:
-                        play_caseONE(scanner, player, enemy, system);
+                        play_caseONE(scanner, system);
                         break;
 
                     case TWO:
-                        play_caseTWO(scanner, player);
+                        play_caseTWO(scanner, system);
                         break;
 
                     case THREE:
-                        player.run_away(enemy);
-                        Thread.sleep(1000);
+                        play_caseTHREE(system);
                         continue GAME;
 
                     default:
+                        System.out.println("               Invalid command!, try again.");
+                        Thread.sleep(1000);
                         continue;
                 }
             }
             // check player defeat
-            if (player.getHealthPoint() < ONE_POINT) {
-                System.out.println("      You limp out of the dungeon, weak from battle");
+            if (system.checkPlayerHP()) {
+                gameOver();
                 break;
             }
             //2. 몬스터를 물리친 경우 [선택지]
-            system.checkDropRate_bounty(player, enemy); //item drop?
+            system.checkDropRate_bounty(); //item drop?
             if (go_on(scanner,system)) break; // Do you want to play more?
         }
 
     }
 
-    private static boolean go_on(Scanner scanner,GameSystem system) {
-        System.out.println("    ============================================================================");
-        System.out.println("         What would you like to do now?");
-        System.out.println("              (1) continue fighting        (2) Exit dungeon");
-        System.out.println("    ============================================================================");
-        System.out.print("               select> ");
-        String play_more = scanner.nextLine();
+    private static void encounterMonster(GameSystem system) throws InterruptedException {
+        system.getEnemyImage();
+        System.out.println("      " + system.enemyName() + " has appeared!!!");
+        System.out.println(system.showEnemyInfo());
+        System.out.println(LINE);
+        Thread.sleep(2400);
+    }
+
+    private static void player_enemy_status(GameSystem system) {
+        system.getHeroAndEnemyImage();
+        System.out.println(LINE_TYPE2);
+        system.checkStatusWindow();
+    }
+
+    private static void play_caseONE(Scanner scanner, GameSystem system) throws InterruptedException {
+        String select = attackMenu(scanner);
+        if (select.equals(ONE)) {
+            caseONE_basicAttack(system);
+        } else if (select.equals(TWO)) {
+            caseONE_Ultimate(system);
+        } else {
+            System.out.println("               Invalid command!, try again.");
+            Thread.sleep(1000);
+        }
+    }
+
+    private static void caseONE_basicAttack(GameSystem system) throws InterruptedException {
+        System.out.println(LINE);
+        system.basicAttack();
+        System.out.println(LINE);
+        Thread.sleep(2000);
+    }
+
+    private static void caseONE_Ultimate(GameSystem system) throws InterruptedException {
+        System.out.println(LINE);
+        system.ultimate();//MP가 남았는지 확인하여, 궁극기를 사용할 수 있는지 판단한다.
+        System.out.println(LINE);
+        Thread.sleep(2000);
+    }
+
+    private static void play_caseTWO(Scanner scanner, GameSystem system) throws InterruptedException {
+        String select2 = drinkMenu(scanner);
+        if (select2.equals(ONE)) {
+            system.drinkPotion();
+            Thread.sleep(1000);
+        } else if (select2.equals(TWO)) {
+            system.useTearsOfPhoenix();
+            Thread.sleep(1000);
+        } else {
+            System.out.println("               Invalid command!, try again.");
+            System.out.print("               select> ");
+        }
+    }
+
+    private static void play_caseTHREE(GameSystem system) throws InterruptedException {
+        system.run_away();
+        Thread.sleep(1000);
+        return;
+    }
+
+    private static void gameOver() {
+        System.out.println("      You limp out of the dungeon, weak from battle");
+        System.out.println("      Game Over!!!");
+        System.out.println(LINE);
+    }
+
+    private static boolean go_on(Scanner scanner,GameSystem system) throws InterruptedException {
+        String play_more = go_one_menu(scanner);
         while(!play_more.equals(ONE) && !play_more.equals(TWO)) {
             System.out.println("               Invalid command");
-            System.out.print("               select> ");
-            play_more = scanner.nextLine();
+            Thread.sleep(1000);
+            play_more = go_one_menu(scanner);
         }
         if (play_more.equals(TWO)) {
             system.thanks();
@@ -143,55 +201,15 @@ public class View {
         return false;
     }
 
-    private static void play_caseONE(Scanner scanner, Player player, Enemy enemy, GameSystem system) throws InterruptedException {
-        String select = attackMenu(scanner);
-        if (select.equals(ONE)) {
-            system.getImage(player.getName(), enemy.getName(), BASIC_ATTACK);
-            System.out.println(LINE);
-            player.basicAttack(player, enemy);
-            System.out.println(LINE);
-            Thread.sleep(2000);
-            if (player.getHealthPoint() < ONE_POINT) {
-                System.out.println("      You have taken too much damage, you are too weak to go on");
-                Thread.sleep(1000);
-                return;
-            }
-        } else if (select.equals(TWO)) {
-            system.getImage(player.getName(), enemy.getName(), ULTIMATE);
-            System.out.println(LINE);
-            player.ultimate(player, enemy);
-            System.out.println(LINE);
-            Thread.sleep(2000);
-            if (player.getHealthPoint() < ONE_POINT) {
-                System.out.println("      You have taken too much damage, you are too weak to go on");
-                Thread.sleep(1000);
-                return;
-            }
-        } else {
-            System.out.println("               Invalid command!, try again.");
-            System.out.print("               select> ");
-        }
+    private static String go_one_menu(Scanner scanner) {
+        System.out.println("    ============================================================================");
+        System.out.println("         What would you like to do now?");
+        System.out.println("              (1) continue fighting        (2) Exit dungeon");
+        System.out.println("    ============================================================================");
+        System.out.print("               select> ");
+        return scanner.nextLine();
     }
 
-    private static void play_caseTWO(Scanner scanner, Player player) throws InterruptedException {
-        String select2 = drinkMenu(scanner);
-        if (select2.equals(ONE)) {
-            player.drinkPotion();
-            Thread.sleep(1000);
-        } else if (select2.equals(TWO)) {
-            player.useTearsOfPhoenix();
-            Thread.sleep(1000);
-        } else {
-            System.out.println("               Invalid command!, try again.");
-            System.out.print("               select> ");
-        }
-    }
-
-    private static void encounterMonster(Enemy enemy, GameSystem system) {
-        system.getImage(enemy.getName());
-        System.out.println("      " + enemy.getName()+ " has appeared!!!");
-        System.out.println(enemy.toString());
-    }
 
     private static String attackMenu(Scanner scanner) {
         System.out.println("    ============================================================================");
