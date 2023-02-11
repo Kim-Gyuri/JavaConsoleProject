@@ -1,10 +1,32 @@
 # :pushpin: 자바 콘솔 프로그램 만들기 - adventure game
 객체지향을 이해하기 위한 자바 콘솔 게임 만들기 <br> (데이터베이스, JSP를 전혀 사용하지 않고 Java와 객체에 좀 더 집중할 예정) <br><br>
+
+다음 순서대로 프로젝트 보고서를 작성했다. <br>
++ 실행화면
++ 요구사항
+  + 기능 요구사항
+  + 프로그램 요구사항 
++ 코드분석
+  + 주요 객체 
+  + 주요 객체들의 속성과 역할
+  + 추상화
+  + 객체지향 디자인패턴
+  + enum 타입을 활용
+  + 일급컬렉션 사용
+  + 역할과 구현을 분리한다.
++ 생각정리
++ 전체코드
++ 참고자료
+
+> 내용이 길어져서 나눠서 작성했다. <br>
+> 코드분석 - 역할과 구현 부분부터는 [2편](https://github.com/Kim-Gyuri/JavaConsoleProject/blob/master/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8/adventure%20game/adventure%20game%20ch2.md)을 보면 된다.
+
+## 목차
 [0. 실행화면](#0-실행화면) <br>
 [1. 요구사항](#1-요구사항) <br>
 [2. 코드분석](#2-코드분석) <br>
 
-> 내용이 길어져서 [2편](https://github.com/Kim-Gyuri/JavaConsoleProject/blob/master/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8/adventure%20game/adventure%20game%20ch2.md)으로 나눠 작성했다.
+
 <br><br>
 
 ## 0. 실행화면
