@@ -27,8 +27,6 @@
 [2. 코드분석](#2-코드분석) <br>
 
 
-<br><br>
-
 ## 0. 실행화면
 ### Hero 선택화면
 ![ConsoleProject-–-12023-02-08-16-23-56-_online-video-cutter com_](https://user-images.githubusercontent.com/57389368/217464336-c04c7e40-c8be-4fd0-baa4-e1ba2b5685f8.gif)
