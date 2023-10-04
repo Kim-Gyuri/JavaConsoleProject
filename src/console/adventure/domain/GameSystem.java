@@ -193,6 +193,10 @@ public class GameSystem {
         return (user.getHealthPoint() > patchNote.zero());
     }
 
+    public void resetPlayer() {
+        user.resetHP(patchNote.zero());
+    }
+
     public boolean checkEnemyHP() {
         return (enemy.getHealthPoint() > patchNote.zero());
     }
