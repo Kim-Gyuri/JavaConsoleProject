@@ -6,17 +6,80 @@
 [5. 참고자료](#5-참고자료) <br>
 
 ## 2. 코드분석
-### 역할과 구현을 분리한다.
-```
-  PatchNote → GameSystem → View → Main(코드 실행)
-```
+### MVC 패턴
+이 프로젝트는 MVC 패턴을 따릅니다. <br> model - view - controller 로 분리하여 구조화하며 각 구성 요소는 특정 역할을 수행합니다. <br>
+![MVC 구조](https://github.com/Kim-Gyuri/JavaConsoleProject/assets/57389368/405a3fa2-cccf-4bb2-b0da-cc2c30a97b5d) <br><br>
 
-> PatchNote, GameSystem, View의 역할은 다음과 같다.
+
+#### 1. Model
++ 모델은 애플리케이션의 데이터 및 비즈니스 로직을 관리합니다.
++ 이 프로젝트에서 `GameSystem 클래스`가 모델 역할을 합니다.
++ 이 클래스는 게임 데이터(플레이어, 몬스터, 아이템)를 유지하고 게임 로직(공격, 아이템 사용, 게임 진행)을 처리합니다.
+
+#### 2. View
++ 뷰는 사용자 인터페이스를 표시하고 데이터를 시각적으로 나타냅니다.
++ 이 프로젝트에서 `OutputView 클래스`가 뷰 역할을 합니다.
++ 이 클래스는 게임에서 발생하는 시각적 요소 (챔피언 정보, 몬스터 정보, 게임 오버 메시지)를 출력합니다.
+
+#### 3. Controller 
++ 사용자 입력을 처리하고 모델과 뷰 간의 상호 작용을 조정합니다.
++ 이 프로젝트에서 `GameController 클래스`가 컨트롤러 역할을 합니다. 
++ 이 클래스는 `사용자 입력을 (InputView로) 받아` 모델의 업데이트를 관리하고 뷰에 필요한 정보를 전달합니다.
+
+---
+### GameController
+GameController 클래스는 MVC 패턴에서 컨트롤러 역할을 수행하는 클래스로, <br> 사용자 입력을 처리하고 모델(GameSystem) 및 뷰(OutputView, InputView) 간의 상호 작용을 조정합니다. <br>
+
+![컨트롤러](https://github.com/Kim-Gyuri/JavaConsoleProject/assets/57389368/bc3f9bfb-4831-4d4a-8f54-f451c9191af7) <br><br>
+
+#### GameController 클래스 변수
++ gameSystem: GameSystem 모델 클래스에 접근하기 위한 멤버 변수
++ scanner: 사용자 입력을 받기 위한 Scanner 객체
+
+#### GameController 생성자
++ gameSystem 객체를 생성하고 scanner를 초기화합니다.
+
+#### startGame 메서드
++ 게임을 시작하는 메서드입니다.
++ selectChampion 메서드를 호출하여 챔피언을 선택하고, 그 다음 playGame 메서드로 게임 진행을 이어갑니다.
+
+ <br>
+ 
+`게임 이용자가 Hero를 고를 수 있는 선택지` <br>
+
+![컨트롤러 챔피언 선택](https://github.com/Kim-Gyuri/JavaConsoleProject/assets/57389368/1d9a9166-b896-453d-9355-4447934a1142) <br>
+
+#### selectChampion 메서드
++ 플레이하고자 하는 챔피언을 선택하는 메서드입니다.
++ 사용자에게 챔피언 선택지를 표시하고, 사용자 입력을 받아 해당 챔피언을 선택합니다.
++ 선택한 챔피언 정보를 출력하고, confirmDecision 메서드로 사용자의 선택을 확인합니다.
+
+<br><br>
+
+`게임 이용자가 던전사냥 게임과정에서 고를 수 있는 선택지`  <br>
+
+![컨트롤러 게임 진행](https://github.com/Kim-Gyuri/JavaConsoleProject/assets/57389368/2812ccbb-1a0e-4887-adde-79aa32b5558f) <br>
+
+#### playGame 메서드
++ 게임을 실제로 진행하는 메서드입니다.
++ 게임 가이드를 출력하고, chooseEnemy 메서드로 적을 선택합니다.
++ 사용자와 적의 상태를 출력하고, 사용자의 선택에 따라 공격, 아이템 사용 또는 도망가기를 처리합니다.
++ 게임 종료 조건 및 사용자의 게임 계속 여부를 확인하고, 게임이 종료되면 결과 메시지를 출력합니다.
+
+#### confirmDecision 메서드
++ 사용자의 결정을 확인하는 메서드입니다.
++ 사용자에게 추가 플레이 여부를 묻고, 사용자의 입력이 유효한지 확인합니다.
+
+
+### GameSystem
+```
+  PatchNote → GameSystem 
+```
+> PatchNote, GameSystem의 역할은 다음과 같다.
 + PatchNote에서 플레이어/몬스터 세팅에 필요한 수치값과 몬스터 랜덤 선택 기능을 업데이트한다.
 + GameSystem에 PatchNote 업데이트 내용을 적용한다.
 + GameSystem은 게임운영에 필요한 Player, Enemy 정보를 관리한다.
 + GameSystem에서 Player 동작 메소드에 대한 예외처리를 추가한다.
-+ View는 GameSystem에서 정보를 받아 게임을 실행한다.
 
  <br> <br>
  
@@ -165,21 +228,13 @@ Player 동작 메소드에서 부가적인 것을 빼고, 최대한 역할만 �
 
 <br><br><br> 
 
-#### View
-+ GameSystem과 게임 이용자의 입력에 따른 결과를 출력한다. 
-+ while(), switch(), if()을 사용하여 게임 선택지를 구현한다.
-+ 최대한 메소드당 역할을 1개만 같도록 extract method()를 많이 하려고 했다.
+#### OutputView
+OutputView 클래스는 뷰 역할을 수행하며, 게임의 결과 및 상황을 출력하기 위해 뷰 계층에서 위치해야 한다. 
++ 게임의 시나리오 및 상황을 출력하고 사용자에게 정보를 제공합니다.
++ 게임 진행 중에 발생하는 이벤트 및 상황을 출력합니다.
++ 사용자에게 게임의 결과를 표시하고, 게임 오버 메시지를 출력합니다.
 
-`게임 이용자가 Hero를 고를 수 있는 선택지` <br>
 
-![view 캐릭터 선택](https://user-images.githubusercontent.com/57389368/217841796-0591165f-805e-44f3-bc98-78093ab2c270.png) <br>
-
-<br><br>
-
-`게임 이용자가 던전사냥 게임과정에서 고를 수 있는 선택지`  <br>
-
-![view 게임 선택지](https://user-images.githubusercontent.com/57389368/218244101-001bb0ee-5a90-48e0-b91c-4962d4f2e1dc.png) <br>
-![view 게임 선택지 2](https://user-images.githubusercontent.com/57389368/218244378-a7f25b26-9c53-4614-8f36-71a5a3614817.png) <br>
 
 <br>
 
