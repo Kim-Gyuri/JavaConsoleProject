@@ -10,16 +10,16 @@
   + 주요 객체 
   + 주요 객체들의 속성과 역할
   + 추상화
-  + 객체지향 디자인패턴
+  + 객체지향 디자인패턴 `객체 관계도`
   + enum 타입을 활용
   + 일급컬렉션 사용
-  + 역할과 구현을 분리한다.
+  + `MVC 패턴 구조`
 + 생각정리
 + 전체코드
 + 참고자료
 
 > 내용이 길어져서 나눠서 작성했다. <br>
-> 코드분석 - 역할과 구현 부분부터는 [2편](https://github.com/Kim-Gyuri/JavaConsoleProject/blob/master/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8/adventure%20game/adventure%20game%20ch2.md)을 보면 된다.
+> 코드분석 - MVC 패턴 구조부터는 [2편](https://github.com/Kim-Gyuri/JavaConsoleProject/blob/master/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8/adventure%20game/adventure%20game%20ch2.md)을 보면 된다.
 
 ## 목차
 [0. 실행화면](#0-실행화면) <br>
